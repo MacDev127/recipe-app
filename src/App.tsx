@@ -1,9 +1,19 @@
 import './App.css';
-
-import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './Pages/Home';
+import Results from './Pages/Results';
+import Details from './Pages/Details';
 
 const App = () => {
-  return <div>App</div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/details" element={<Details />} />
+        <Route path="/results" element={<Results />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;
