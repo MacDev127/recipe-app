@@ -1,3 +1,9 @@
 .ingredient-container {
   display: flex;
 }
+
+.selected-ingredient {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
