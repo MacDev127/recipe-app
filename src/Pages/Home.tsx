@@ -1,5 +1,11 @@
+import Ingredients from '../Components/Ingredients/Ingredients';
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <h1>Enter Your Ingredients</h1>
+      <Ingredients />
+    </>
+  );
 };
 
 export default Home;
