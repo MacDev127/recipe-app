@@ -24,7 +24,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   // Map options to the structure that react-select expects
   const formattedOptions = options.map((option) => ({
-    value: option.idIngredient,
+    value: option.strIngredient,
     label: option.strIngredient,
   }));
 

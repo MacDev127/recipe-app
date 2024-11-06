@@ -2,19 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Ingredients from '../../Components/Ingredients/IngredientSelection';
 import RecipeList from '../../Components/RecipeList/RecipeList';
+import MealSpec from '../../Components/MealSpec/MealSpec';
 import './Home.css';
-import {
-  vegetableKeywords,
-  meatKeywords,
-  fruitKeywords,
-  dairyKeywords,
-  grainsAndLegumesKeywords,
-  condimentsAndSpicesKeywords,
-  oilsAndFatsKeywords,
-  fishAndSeafoodKeywords,
-  sweetenersAndSugarsKeywords,
-  miscellaneousKeywords,
-} from '../../Components/Ingredients/ingredientKeywords';
+
+import dropdownOptions from '../../Components/Ingredients/dropdownOptions';
+
+//orginal
 
 interface Recipe {
   idMeal: string;
@@ -31,6 +24,51 @@ const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
 
+  const [mealCategory, setMealCategory] = useState<string | null>(null);
+  const [categories, setCategories] = useState([]); // For meal categories
+
+  // Fetch categories on component load
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          'https://www.themealdb.com/api/json/v1/1/categories.php'
+        );
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchRecipesByCategory = async () => {
+      if (!mealCategory) return;
+      console.log('mealCategory before API call:', mealCategory);
+
+      try {
+        // Fetch recipes based on the selected category
+        const response = await axios.get(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${mealCategory}`
+        );
+
+        const fetchedRecipes = response.data.meals || [];
+        console.log('API response:', response.data);
+
+        // Set recipes to display the results directly without further filtering
+        setRecipes(fetchedRecipes);
+        setFilteredRecipes(fetchedRecipes); // Set initial filtered list to fetched recipes
+        console.log('Fetched recipes by category:', fetchedRecipes); // Debug log
+      } catch (error) {
+        console.error('Error fetching recipes by category:', error);
+      }
+    };
+
+    fetchRecipesByCategory();
+  }, [mealCategory]); // Only depends on mealCategory
+
+  //fetch recipes
   useEffect(() => {
     const fetchRecipes = async () => {
       if (!mainIngredient) return;
@@ -84,70 +122,15 @@ const Home = () => {
     );
   };
 
-  const filterByKeywords = (keywords: string[]) =>
-    keywords.map((keyword) => ({
-      idIngredient: keyword,
-      strIngredient: keyword,
-    }));
-
-  const dropdownOptions = [
-    {
-      label: 'Fruits',
-      options: filterByKeywords(fruitKeywords),
-      placeholder: 'Select a fruit',
-    },
-    {
-      label: 'Vegetables',
-      options: filterByKeywords(vegetableKeywords),
-      placeholder: 'Select a vegetable',
-    },
-    {
-      label: 'Meat',
-      options: filterByKeywords(meatKeywords),
-      placeholder: 'Select Meat',
-    },
-    {
-      label: 'Dairy',
-      options: filterByKeywords(dairyKeywords),
-      placeholder: 'Select Dairy',
-    },
-    {
-      label: 'Oils & Fats',
-      options: filterByKeywords(oilsAndFatsKeywords),
-      placeholder: 'Select Oils & Fats',
-    },
-    {
-      label: 'Grains',
-      options: filterByKeywords(grainsAndLegumesKeywords),
-      placeholder: 'Select Grains',
-    },
-    {
-      label: 'Spices & Condiments',
-      options: filterByKeywords(condimentsAndSpicesKeywords),
-      placeholder: 'Select Spices & Condiments',
-    },
-    {
-      label: 'Sugars & Sweeteners',
-      options: filterByKeywords(sweetenersAndSugarsKeywords),
-      placeholder: 'Select Sugars & Sweeteners',
-    },
-    {
-      label: 'Seafood',
-      options: filterByKeywords(fishAndSeafoodKeywords),
-      placeholder: 'Select Seafood',
-    },
-    {
-      label: 'Miscellaneous',
-      options: filterByKeywords(miscellaneousKeywords),
-      placeholder: 'Select Miscellaneous',
-    },
-  ];
-
   return (
     <div className="home">
       <div className="hero">
         <img src="../../../public/images/logo3.png" alt="" />
       </div>
+      <MealSpec
+        setMealCategory={setMealCategory}
+        categories={categories} // Pass categories to MealSpec
+      />
       <Ingredients
         mainIngredient={mainIngredient}
         additionalIngredients={additionalIngredients}
