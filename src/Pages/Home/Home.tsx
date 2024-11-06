@@ -30,7 +30,6 @@ const Home = () => {
   );
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -156,11 +155,7 @@ const Home = () => {
         toggleAdditionalIngredient={toggleAdditionalIngredient}
         dropdownOptions={dropdownOptions}
       />
-      <RecipeList
-        filteredRecipes={filteredRecipes}
-        selectedRecipe={selectedRecipe}
-        setSelectedRecipe={setSelectedRecipe}
-      />
+      <RecipeList filteredRecipes={filteredRecipes} />
     </div>
   );
 };

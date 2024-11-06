@@ -1,0 +1,19 @@
+.recipe__list {
+  margin-top: 8rem;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  & .recipe__list-title {
+    font-size: 60px;
+    font-weight: 700;
+    color: var(--font);
+    letter-spacing: 2px;
+    margin-bottom: 5rem;
+  }
+  & .recipe__list-result {
+    width: 80%;
+  }
+}

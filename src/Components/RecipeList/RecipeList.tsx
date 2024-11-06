@@ -1,5 +1,6 @@
 import React from 'react';
 import RecipeAccordion from '../RecipeAccoridan/RecipeAccoridan';
+import './RecipeList.css';
 
 interface Recipe {
   idMeal: string;
@@ -13,25 +14,15 @@ interface Recipe {
 
 interface RecipeListProps {
   filteredRecipes: Recipe[];
-  selectedRecipe: Recipe | null;
-  setSelectedRecipe: (recipe: Recipe | null) => void;
 }
 
-const RecipeList: React.FC<RecipeListProps> = ({
-  filteredRecipes,
-  selectedRecipe,
-  setSelectedRecipe,
-}) => (
-  <div className="recipe-list">
-    <h2>Recipes</h2>
-    <div className="recipe-results">
+const RecipeList: React.FC<RecipeListProps> = ({ filteredRecipes }) => (
+  <div className="recipe__list">
+    <h2 className="recipe__list-title">Recipes</h2>
+    <div className="recipe__list-result">
       {filteredRecipes.length > 0 ? (
         filteredRecipes.map((recipe) => (
-          <RecipeAccordion
-            key={recipe.idMeal}
-            recipe={recipe}
-            onSelect={setSelectedRecipe}
-          />
+          <RecipeAccordion key={recipe.idMeal} recipe={recipe} />
         ))
       ) : (
         <p>No recipes found.</p>
