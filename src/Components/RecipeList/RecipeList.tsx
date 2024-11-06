@@ -15,19 +15,24 @@ interface Recipe {
 
 interface RecipeListProps {
   filteredRecipes: Recipe[];
+  hasSearched: boolean; // Indicates if a search was performed
 }
 
-const RecipeList: React.FC<RecipeListProps> = ({ filteredRecipes }) => (
+const RecipeList: React.FC<RecipeListProps> = ({
+  filteredRecipes,
+  hasSearched = false,
+}) => (
   <div className="recipe__list">
-    <Title>Recipe</Title>
+    {/* Only show the Title if there are recipes */}
+    {filteredRecipes.length > 0 && <Title>Recipe</Title>}
+
     <div className="recipe__list-result">
-      {filteredRecipes.length > 0 ? (
-        filteredRecipes.map((recipe) => (
-          <RecipeAccordion key={recipe.idMeal} recipe={recipe} />
-        ))
-      ) : (
-        <p>No recipes found.</p>
-      )}
+      {filteredRecipes.map((recipe) => (
+        <RecipeAccordion key={recipe.idMeal} recipe={recipe} />
+      ))}
+
+      {/* Show "No recipes found" message if no recipes are returned and a search was performed */}
+      {filteredRecipes.length === 0 && hasSearched && <p>No recipes found.</p>}
     </div>
   </div>
 );

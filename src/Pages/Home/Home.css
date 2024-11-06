@@ -10,18 +10,13 @@
   --background: #edf6f9;
   --font: #313131;
   --primary-color: #006d77;
-  --secondary-color: #83c5be;
+  --secondary-color: rgb(131, 197, 190);
 }
 .home {
   width: 100%;
   height: 100%;
+  margin-bottom: 10rem;
   background-color: var(--background);
-
-  & .home-title {
-    margin: 30px 0;
-    color: var(--font);
-    font-weight: 600;
-  }
 
   & .hero {
     width: 100%;
@@ -31,14 +26,6 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-  }
-
-  & .hero input {
-    width: 20%;
-    padding: 10px;
-    border-radius: 10px;
-    outline: none;
-    border: none;
   }
 
   & .hero img {

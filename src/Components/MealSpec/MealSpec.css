@@ -1,16 +1,25 @@
 .meal__spec {
   margin-top: 8rem;
 
-  & .meal__spec-title {
-    font-size: 60px;
-    font-weight: 700;
-    color: var(--font);
-    margin-bottom: 4rem;
-  }
-
   & .meal__spec-container {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+/* Tablets  */
+@media only screen and (max-width: 768px) {
+  .meal__spec .meal__spec-container {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .meal__spec,
+  .meal__spec-container {
+    flex-direction: column;
+    margin-top: 2rem;
   }
 }

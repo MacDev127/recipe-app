@@ -4,6 +4,7 @@ import Ingredients from '../../Components/Ingredients/IngredientSelection';
 import RecipeList from '../../Components/RecipeList/RecipeList';
 import MealSpec from '../../Components/MealSpec/MealSpec';
 import './Home.css';
+import CategorySlider from '../../Components/CategorySlider/CategorySlider';
 
 import dropdownOptions from '../../Components/Ingredients/dropdownOptions';
 
@@ -126,8 +127,8 @@ const Home = () => {
     <div className="home">
       <div className="hero">
         <img src="../../../public/images/logo3.png" alt="" />
-        <input type="search" placeholder="Breakfast, Dinner..." />
       </div>
+      <CategorySlider />
       <MealSpec
         setMealCategory={setMealCategory}
         categories={categories} // Pass categories to MealSpec
@@ -139,7 +140,7 @@ const Home = () => {
         toggleAdditionalIngredient={toggleAdditionalIngredient}
         dropdownOptions={dropdownOptions}
       />
-      <RecipeList filteredRecipes={filteredRecipes} />
+      <RecipeList filteredRecipes={filteredRecipes} hasSearched={false} />
     </div>
   );
 };
