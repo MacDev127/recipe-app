@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Ingredients from '../../Components/Ingredients/Ingredients';
+import Ingredients from '../../Components/Ingredients/IngredientSelection';
 import RecipeList from '../../Components/RecipeList/RecipeList';
+import './Home.css';
 import {
   vegetableKeywords,
   meatKeywords,
@@ -19,7 +20,7 @@ interface Recipe {
   idMeal: string;
   strMeal: string;
   strMealThumb: string;
-  [key: string]: any; // Add this line
+  [key: string]: any;
 }
 
 const Home = () => {
@@ -145,7 +146,9 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h1>Recipe Finder</h1>
+      <div className="hero">
+        <img src="../../../public/images/logo3.png" alt="" />
+      </div>
       <Ingredients
         mainIngredient={mainIngredient}
         additionalIngredients={additionalIngredients}

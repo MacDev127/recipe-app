@@ -1,5 +1,6 @@
 import React from 'react';
-import Dropdown from '../../Components/Dropdown/Dropdown';
+import Dropdown from '../Dropdown/Dropdown';
+import './Ingredients.css';
 
 interface IngredientSelectionProps {
   mainIngredient: string | null;
@@ -15,14 +16,13 @@ interface IngredientSelectionProps {
 
 const IngredientSelection: React.FC<IngredientSelectionProps> = ({
   mainIngredient,
-  additionalIngredients,
   handleMainIngredientChange,
   toggleAdditionalIngredient,
   dropdownOptions,
 }) => (
-  <div className="ingredient-selection">
-    <h2>Select a Main Ingredient</h2>
-    <div className="ingredients">
+  <div className="ingredient__selection">
+    <h1 className="ingredient__selection-title">Select a Main Ingredient</h1>
+    <div className="ingredient__selection--dropdown-container">
       {dropdownOptions.map(({ label, options, placeholder }) => (
         <Dropdown
           key={label}
@@ -34,14 +34,12 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
       ))}
     </div>
 
-    <h4>Selected Ingredients</h4>
-    <p>Main Ingredient: {mainIngredient}</p>
-    <p>Additional Ingredients: {additionalIngredients.join(', ')}</p>
-
     {mainIngredient && (
       <>
-        <h2>Add Additional Ingredients</h2>
-        <div className="ingredients">
+        <h2 className="ingredient__selection-subtitle">
+          Add Additional Ingredients
+        </h2>
+        <div className="ingredient__selection--dropdown-container">
           {dropdownOptions.map(({ label, options, placeholder }) => (
             <Dropdown
               key={label}

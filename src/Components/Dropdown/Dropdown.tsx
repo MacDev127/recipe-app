@@ -1,4 +1,9 @@
 import React from 'react';
+import './Dropdown.css';
+import Select, { SingleValue } from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+const animatedComponents = makeAnimated();
 
 interface DropdownProps {
   label: string;
@@ -6,6 +11,10 @@ interface DropdownProps {
   onChange: (value: string) => void;
   placeholder?: string;
 }
+type IngredientOption = {
+  value: string;
+  label: string;
+};
 
 const Dropdown: React.FC<DropdownProps> = ({
   label,
@@ -13,21 +22,26 @@ const Dropdown: React.FC<DropdownProps> = ({
   onChange,
   placeholder = 'Select an option',
 }) => {
+  // Map options to the structure that react-select expects
+  const formattedOptions = options.map((option) => ({
+    value: option.idIngredient,
+    label: option.strIngredient,
+  }));
+
   return (
-    <div className="dropdown-category">
+    <div className="dropdown" style={{ width: '290px', padding: '10px' }}>
       <label htmlFor={label}>{label}</label>
-      <select
-        id={label}
-        onChange={(e) => onChange(e.target.value)}
-        defaultValue=""
-      >
-        <option value="">{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.idIngredient} value={option.strIngredient}>
-            {option.strIngredient}
-          </option>
-        ))}
-      </select>
+      <Select
+        options={formattedOptions}
+        components={animatedComponents}
+        placeholder={placeholder}
+        onChange={(selectedOption) =>
+          onChange(
+            (selectedOption as SingleValue<IngredientOption>)?.value || ''
+          )
+        }
+        isClearable
+      />
     </div>
   );
 };

@@ -1,9 +1,29 @@
-.ingredient-container {
-  display: flex;
-}
-
-.selected-ingredient {
+.ingredient__selection {
+  height: 80vh;
   display: flex;
   flex-direction: column;
-  padding: 8px 0;
+  justify-content: center;
+  align-items: center;
+
+  & .ingredient__selection--dropdown-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 equal columns */
+    gap: 20px;
+  }
+
+  & .ingredient__selection-title {
+    margin: 4rem 0;
+    font-size: 60px;
+    font-weight: 700;
+    color: var(--font);
+    letter-spacing: 2px;
+  }
+
+  & .ingredient__selection-subtitle {
+    margin: 6rem 0 4rem 0;
+    font-size: 50px;
+    font-weight: 700;
+    color: var(--font);
+    letter-spacing: 2px;
+  }
 }
