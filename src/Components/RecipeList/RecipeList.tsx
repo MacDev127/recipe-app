@@ -1,6 +1,7 @@
 import React from 'react';
 import RecipeAccordion from '../RecipeAccoridan/RecipeAccoridan';
 import './RecipeList.css';
+import Title from '../Title/Title';
 
 interface Recipe {
   idMeal: string;
@@ -18,7 +19,7 @@ interface RecipeListProps {
 
 const RecipeList: React.FC<RecipeListProps> = ({ filteredRecipes }) => (
   <div className="recipe__list">
-    <h2 className="recipe__list-title">Recipes</h2>
+    <Title>Recipe</Title>
     <div className="recipe__list-result">
       {filteredRecipes.length > 0 ? (
         filteredRecipes.map((recipe) => (

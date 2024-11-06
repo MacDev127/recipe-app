@@ -126,6 +126,7 @@ const Home = () => {
     <div className="home">
       <div className="hero">
         <img src="../../../public/images/logo3.png" alt="" />
+        <input type="search" placeholder="Breakfast, Dinner..." />
       </div>
       <MealSpec
         setMealCategory={setMealCategory}

@@ -1,0 +1,16 @@
+.meal__spec {
+  margin-top: 8rem;
+
+  & .meal__spec-title {
+    font-size: 60px;
+    font-weight: 700;
+    color: var(--font);
+    margin-bottom: 4rem;
+  }
+
+  & .meal__spec-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

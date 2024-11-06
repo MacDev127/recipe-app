@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import './Ingredients.css';
+import Title from '../Title/Title';
 
 interface IngredientSelectionProps {
   mainIngredient: string | null;
@@ -21,7 +22,7 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
   dropdownOptions,
 }) => (
   <div className="ingredient__selection">
-    <h1 className="ingredient__selection-title">Select a Main Ingredient</h1>
+    <Title> Select Main Ingredient</Title>
     <div className="ingredient__selection--dropdown-container">
       {dropdownOptions.map(({ label, options, placeholder }) => (
         <Dropdown
@@ -36,9 +37,7 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
 
     {mainIngredient && (
       <>
-        <h2 className="ingredient__selection-subtitle">
-          Add Additional Ingredients
-        </h2>
+        <Title> Add Additional Ingredients</Title>
         <div className="ingredient__selection--dropdown-container">
           {dropdownOptions.map(({ label, options, placeholder }) => (
             <Dropdown
