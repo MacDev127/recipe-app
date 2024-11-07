@@ -1,45 +1,40 @@
 import React from 'react';
-import Select, { SingleValue } from 'react-select';
-import makeAnimated from 'react-select/animated';
-
-const animatedComponents = makeAnimated();
-
-interface DropdownProps {
-  label: string;
-  options: { idIngredient: string; strIngredient: string }[];
-  onChange: (value: string) => void;
-  placeholder?: string;
-}
-type IngredientOption = {
-  value: string;
-  label: string;
-};
+import Select from 'react-select';
+import { DropdownProps } from './dropDownTypes';
 
 const Dropdown: React.FC<DropdownProps> = ({
   label,
   options,
   onChange,
   placeholder = 'Select an option',
+  isMulti = false,
+  selectedValues = [],
 }) => {
-  // Map options to the structure that react-select expects
+  // Format options for react-select
   const formattedOptions = options.map((option) => ({
-    value: option.strIngredient,
+    value: option.idIngredient,
     label: option.strIngredient,
   }));
+
+  const handleChange = (selectedOptions: any) => {
+    const selectedValues = selectedOptions
+      ? selectedOptions.map((option: any) => option.value)
+      : [];
+    onChange(selectedValues);
+  };
 
   return (
     <div className="dropdown" style={{ width: '290px', padding: '10px' }}>
       <label htmlFor={label}>{label}</label>
       <Select
         options={formattedOptions}
-        components={animatedComponents}
         placeholder={placeholder}
-        onChange={(selectedOption) =>
-          onChange(
-            (selectedOption as SingleValue<IngredientOption>)?.value || ''
-          )
-        }
+        onChange={handleChange}
+        isMulti={isMulti}
         isClearable
+        value={formattedOptions.filter((option) =>
+          selectedValues.includes(option.value)
+        )}
       />
     </div>
   );

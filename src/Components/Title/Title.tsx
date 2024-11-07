@@ -1,9 +1,5 @@
-import React, { ReactNode } from 'react';
 import './Title.css';
-
-interface TitleProps {
-  children: ReactNode;
-}
+import { TitleProps } from './titleTypes';
 
 const Title: React.FC<TitleProps> = ({ children }) => {
   return <h1 className="title__component">{children}</h1>;

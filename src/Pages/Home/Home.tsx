@@ -5,71 +5,28 @@ import RecipeList from '../../Components/RecipeList/RecipeList';
 import MealSpec from '../../Components/MealSpec/MealSpec';
 import './Home.css';
 import CategorySlider from '../../Components/CategorySlider/CategorySlider';
-
 import dropdownOptions from '../../Components/Ingredients/dropdownOptions';
-
-interface Recipe {
-  idMeal: string;
-  strMeal: string;
-  strMealThumb: string;
-  [key: string]: any;
-}
+import { Recipe } from './homeTypes'; // Import the Recipe type
 
 const Home = () => {
-  const [mainIngredient, setMainIngredient] = useState<string | null>(null);
-  const [additionalIngredients, setAdditionalIngredients] = useState<string[]>(
-    []
-  );
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
-  const [mealCategory, setMealCategory] = useState<string | null>(null);
-  const [categories, setCategories] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [isSearchTriggered, setIsSearchTriggered] = useState(false);
+  const [isSearching, setIsSearching] = useState(false); // State to control button visibility
 
-  // Fetch categories on component load
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(
-          'https://www.themealdb.com/api/json/v1/1/categories.php'
-        );
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    const fetchRecipesByCategory = async () => {
-      if (!mealCategory) return;
-
-      try {
-        // Fetch recipes based on the selected category
-        const response = await axios.get(
-          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${mealCategory}`
-        );
-
-        const fetchedRecipes = response.data.meals || [];
-        setRecipes(fetchedRecipes);
-        setFilteredRecipes(fetchedRecipes);
-      } catch (error) {
-        console.error('Error fetching recipes by category:', error);
-      }
-    };
-
-    fetchRecipesByCategory();
-  }, [mealCategory]);
-
+  // Fetch recipes based on selected ingredients
   useEffect(() => {
     const fetchRecipes = async () => {
-      if (!mainIngredient) return;
-      const URL = `https://www.themealdb.com/api/json/v2/9973533/filter.php?i=${mainIngredient}`;
+      if (selectedIngredients.length === 0) return;
+
       try {
+        const ingredientsQuery = selectedIngredients.join(',');
+        const URL = `https://www.themealdb.com/api/json/v2/9973533/filter.php?i=${ingredientsQuery}`;
         const response = await axios.get(URL);
         const fetchedRecipes = response.data.meals || [];
+
+        // Fetch detailed information for each recipe
         const detailedRecipes = await Promise.all(
           fetchedRecipes.map(async (recipe: Recipe) => {
             const recipeDetails = await axios.get(
@@ -78,73 +35,75 @@ const Home = () => {
             return recipeDetails.data.meals[0];
           })
         );
+
         setRecipes(detailedRecipes);
         setFilteredRecipes(detailedRecipes);
       } catch (error) {
         console.error('Error fetching recipes:', error);
       }
     };
+
     fetchRecipes();
-  }, [mainIngredient]);
+  }, [selectedIngredients]);
 
-  const handleMainIngredientChange = (ingredientName: string) => {
-    setMainIngredient(ingredientName);
-    setAdditionalIngredients([]);
+  // Handle selection of ingredients
+  const handleIngredientSelect = (newIngredients: string[]) => {
+    setSelectedIngredients(newIngredients);
   };
 
-  const toggleAdditionalIngredient = (ingredientName: string) => {
-    setAdditionalIngredients((prevSelected) =>
-      prevSelected.includes(ingredientName)
-        ? prevSelected.filter((item) => item !== ingredientName)
-        : [...prevSelected, ingredientName]
-    );
-  };
-
+  // Handle search to filter recipes based on selected ingredients
   const handleSearchRecipes = () => {
+    setIsSearching(true); // Hide the button when search is initiated
     setHasSearched(true);
-    setIsSearchTriggered(true);
-
-    if (additionalIngredients.length === 0) {
-      setFilteredRecipes(recipes);
-      return;
-    }
 
     const refinedRecipes = recipes.filter((recipe) => {
       const recipeIngredients = Object.keys(recipe)
         .filter((key) => key.startsWith('strIngredient') && recipe[key])
         .map((key) => recipe[key].toLowerCase());
 
-      return [mainIngredient, ...additionalIngredients].every((ingredient) =>
-        ingredient ? recipeIngredients.includes(ingredient.toLowerCase()) : true
+      return selectedIngredients.every((ingredient) =>
+        recipeIngredients.includes(ingredient.toLowerCase())
       );
     });
-
     setFilteredRecipes(refinedRecipes);
+  };
+
+  // Reset search state
+  const handleReset = () => {
+    setSelectedIngredients([]);
+    setFilteredRecipes([]);
+    setHasSearched(false);
+    setIsSearching(false); // Show the search button again
   };
 
   return (
     <div className="home">
       <div className="home__hero">
-        <img src="../../../public/images/logo3.png" alt="" />
+        <img src="../../../public/images/logo3.png" alt="Recipe App Logo" />
       </div>
       <CategorySlider />
-      <MealSpec setMealCategory={setMealCategory} categories={categories} />
+      <MealSpec />
       <Ingredients
-        mainIngredient={mainIngredient}
-        additionalIngredients={additionalIngredients}
-        handleMainIngredientChange={handleMainIngredientChange}
-        toggleAdditionalIngredient={toggleAdditionalIngredient}
+        selectedIngredients={selectedIngredients}
+        handleIngredientSelect={handleIngredientSelect}
         dropdownOptions={dropdownOptions}
-        isSearchTriggered={isSearchTriggered} // Pass the state here
+        isSearchTriggered={hasSearched}
       />
-      <button className="home__search-btn" onClick={handleSearchRecipes}>
-        Search Recipes
-      </button>
+      {!isSearching && (
+        <button className="home__search-btn" onClick={handleSearchRecipes}>
+          Search Recipes
+        </button>
+      )}
       {hasSearched && (
         <RecipeList
           filteredRecipes={filteredRecipes}
           hasSearched={hasSearched}
         />
+      )}
+      {hasSearched && ( // Show the reset button only if a search has been made
+        <button className="home__reset-btn" onClick={handleReset}>
+          Reset Search
+        </button>
       )}
     </div>
   );

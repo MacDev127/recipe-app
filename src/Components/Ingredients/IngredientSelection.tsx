@@ -2,58 +2,37 @@ import React from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import './Ingredients.css';
 import Title from '../Title/Title';
-
-interface IngredientSelectionProps {
-  mainIngredient: string | null;
-  additionalIngredients: string[];
-  handleMainIngredientChange: (ingredientName: string) => void;
-  toggleAdditionalIngredient: (ingredientName: string) => void;
-  dropdownOptions: {
-    label: string;
-    options: { idIngredient: string; strIngredient: string }[];
-    placeholder: string;
-  }[];
-  isSearchTriggered: boolean;
-}
+import { IngredientSelectionProps } from './ingredientTypes';
 
 const IngredientSelection: React.FC<IngredientSelectionProps> = ({
-  mainIngredient,
-  additionalIngredients,
-  handleMainIngredientChange,
-  toggleAdditionalIngredient,
+  selectedIngredients,
+  handleIngredientSelect,
   dropdownOptions,
   isSearchTriggered,
 }) => {
   return (
     <div className="ingredient__selection">
-      {!isSearchTriggered && ( // Only show this section if search is not triggered
+      {!isSearchTriggered && (
         <div className="ingredient__section">
-          <Title>Select Main Ingredient</Title>
+          <Title>Select Ingredients</Title>
           <div className="ingredient__selection--dropdown-container">
             {dropdownOptions.map(({ label, options, placeholder }) => (
               <Dropdown
                 key={label}
                 label={label}
                 options={options}
-                onChange={handleMainIngredientChange}
+                onChange={(selectedOptions) => {
+                  // Ensure selectedOptions is an array of objects with value properties
+                  const selectedValues = (selectedOptions || []).map((option) =>
+                    typeof option === 'object' ? option.value : option
+                  );
+                  handleIngredientSelect([
+                    ...new Set([...selectedIngredients, ...selectedValues]),
+                  ]);
+                }}
                 placeholder={placeholder}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {mainIngredient && !isSearchTriggered && (
-        <div className="ingredient__section">
-          <Title>Add Additional Ingredients</Title>
-          <div className="ingredient__selection--dropdown-container">
-            {dropdownOptions.map(({ label, options, placeholder }) => (
-              <Dropdown
-                key={label}
-                label={label}
-                options={options}
-                onChange={toggleAdditionalIngredient}
-                placeholder={placeholder}
+                isMulti={true} // Enable multi-select functionality
+                selectedValues={selectedIngredients} // Pass selected values
               />
             ))}
           </div>

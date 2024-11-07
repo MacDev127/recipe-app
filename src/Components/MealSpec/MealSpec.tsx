@@ -1,58 +1,87 @@
-import React from 'react';
-import Dropdown from '../Dropdown/Dropdown';
-import './MealSpec.css';
+import React, { useState } from 'react';
+import Select, { SingleValue } from 'react-select';
 import Title from '../Title/Title';
+import { OptionType } from './mealSpecTypes';
 
-interface MealSpecProps {
-  setMealCategory: (category: string) => void;
-  categories: { idCategory: string; strCategory: string }[]; // Array of categories from API
-}
+// Define a type for the option items
 
-const MealSpec: React.FC<MealSpecProps> = ({ setMealCategory, categories }) => {
-  // Format categories for the Dropdown component
-  const categoryOptions = categories.map((category) => ({
-    idIngredient: category.idCategory,
-    strIngredient: category.strCategory, // Pass category name here
-  }));
+const MealSpec: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<OptionType | null>(
+    null
+  );
+  const [selectedPeople, setSelectedPeople] = useState<OptionType | null>(null);
+  const [selectedTime, setSelectedTime] = useState<OptionType | null>(null);
+
+  // Hardcoded options
+  const categoryOptions: OptionType[] = [
+    { value: 'breakfast', label: 'Breakfast' },
+    { value: 'lunch', label: 'Lunch' },
+    { value: 'dinner', label: 'Dinner' },
+    { value: 'brunch', label: 'Brunch' },
+    { value: 'snack', label: 'Snack' },
+    { value: 'dessert', label: 'Dessert' },
+    { value: 'other', label: 'Other' },
+  ];
+
+  const peopleOptions: OptionType[] = [
+    { value: '1-3', label: '1-3' },
+    { value: '3-5', label: '3-5' },
+    { value: '5+', label: '5+' },
+  ];
+
+  const timeOptions: OptionType[] = [
+    { value: '<15', label: 'Less than 15 mins' },
+    { value: '<30', label: 'Less than 30 mins' },
+    { value: '<1hr', label: 'Less than 1 hour' },
+    { value: '1hr+', label: '1 hour or more' },
+  ];
 
   return (
-    <>
-      <div className="meal__spec">
-        <Title>Select Meal Preferences</Title>
-        <div className="meal__spec-container">
-          <Dropdown
-            label="Meal Category"
+    <div className="meal__spec">
+      <Title>Meal Preferences</Title>
+      <div
+        style={{
+          display: 'flex',
+          gap: '80px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ minWidth: '250px' }}>
+          <label>Meal Category</label>
+          <Select
             options={categoryOptions}
-            onChange={(value) => setMealCategory(value)} // This will pass the category name
-            placeholder="Select a Category"
+            value={selectedCategory}
+            onChange={(option: SingleValue<OptionType>) =>
+              setSelectedCategory(option)
+            }
+            placeholder="Select a category"
           />
-          <Dropdown
-            label="Number of People"
-            options={[
-              { idIngredient: '1-3', strIngredient: '1-3' },
-              { idIngredient: '3-5', strIngredient: '3-5' },
-              { idIngredient: '5+', strIngredient: '5+' },
-            ]}
+        </div>
+        <div style={{ minWidth: '250px' }}>
+          <label>Number of People</label>
+          <Select
+            options={peopleOptions}
+            value={selectedPeople}
+            onChange={(option: SingleValue<OptionType>) =>
+              setSelectedPeople(option)
+            }
             placeholder="Select number of people"
-            onChange={() => {}}
           />
-
-          <Dropdown
-            label="Cooking Time"
-            onChange={() => {}}
-            options={[
-              { idIngredient: '<15', strIngredient: 'Less than 15 mins' },
-              { idIngredient: '<30', strIngredient: 'Less than 30 mins' },
-              { idIngredient: '<1hr', strIngredient: 'Less than 1 hour' },
-              { idIngredient: '1hr+', strIngredient: '1 hour or more' },
-            ]}
+        </div>
+        <div style={{ minWidth: '250px' }}>
+          <label>Cooking Time</label>
+          <Select
+            options={timeOptions}
+            value={selectedTime}
+            onChange={(option: SingleValue<OptionType>) =>
+              setSelectedTime(option)
+            }
             placeholder="Select cooking time"
           />
         </div>
-
-        {/* People Count Input */}
       </div>
-    </>
+    </div>
   );
 };
 

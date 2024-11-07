@@ -1,5 +1,4 @@
 // Dropdown.test.tsx
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Dropdown from './Dropdown';
 import '@testing-library/jest-dom';

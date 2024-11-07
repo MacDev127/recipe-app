@@ -4,7 +4,6 @@ export const vegetableKeywords = [
   'baby plum tomatoes',
   'basil',
   'basil leaves',
-  'basmati rice',
   'bay leaf',
   'bay leaves',
   'broccoli',

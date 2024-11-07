@@ -1,4 +1,3 @@
-// RecipeAccordion.tsx
 import React from 'react';
 import {
   Accordion,
@@ -7,25 +6,14 @@ import {
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-interface Recipe {
-  idMeal: string;
-  strMeal: string;
-  strMealThumb: string;
-  strCategory?: string;
-  strInstructions?: string;
-  [key: string]: any;
-}
-
-interface RecipeAccordionProps {
-  recipe: Recipe;
-}
+import { RecipeAccordionProps } from './recipeAccrodianTypes';
 
 const RecipeAccordion: React.FC<RecipeAccordionProps> = ({ recipe }) => (
-  <Accordion style={{ marginBottom: '1rem' }}>
+  <Accordion sx={{ marginBottom: '1rem' }}>
     <AccordionSummary
       expandIcon={<ExpandMoreIcon />}
       aria-controls="recipe-content"
+      aria-label={`Expand ${recipe.strMeal}`}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <img
@@ -38,7 +26,7 @@ const RecipeAccordion: React.FC<RecipeAccordionProps> = ({ recipe }) => (
     </AccordionSummary>
     <AccordionDetails>
       <Typography
-        style={{
+        sx={{
           textAlign: 'left',
           marginTop: '1rem',
           marginBottom: '1rem',
@@ -46,13 +34,14 @@ const RecipeAccordion: React.FC<RecipeAccordionProps> = ({ recipe }) => (
           fontWeight: '400',
         }}
       >
-        <strong>Category:</strong> {recipe.strCategory}
+        <strong>Category:</strong> {recipe.strCategory || 'N/A'}
       </Typography>
 
       <Typography
-        style={{ textAlign: 'justify', alignItems: 'center', gap: '16px' }}
+        sx={{ textAlign: 'justify', alignItems: 'center', gap: '16px' }}
       >
-        <strong>Instructions:</strong> {recipe.strInstructions}
+        <strong>Instructions:</strong>{' '}
+        {recipe.strInstructions || 'No instructions available.'}
       </Typography>
       <h3
         style={{
@@ -69,7 +58,7 @@ const RecipeAccordion: React.FC<RecipeAccordionProps> = ({ recipe }) => (
           .filter((key) => key.startsWith('strIngredient') && recipe[key])
           .map((key, index) => (
             <li
-              key={index}
+              key={recipe[`idIngredient${index + 1}`] || index}
               style={{
                 listStyle: 'none',
                 display: 'flex',

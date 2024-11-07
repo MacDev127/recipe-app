@@ -5,15 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import axios from 'axios';
 import Title from '../Title/Title';
 import './CategorySlider.css';
-
-interface Area {
-  strArea: string;
-}
-interface AreaWithImage {
-  area: string;
-  image: string;
-  idMeal: string;
-}
+import { Area, AreaWithImage } from './categorySliderTypes';
 
 const CategorySlider = () => {
   const [areas, setAreas] = useState<AreaWithImage[]>([]);
@@ -47,7 +39,7 @@ const CategorySlider = () => {
         },
       },
       {
-        breakpoint: 480, // Changed from 414 to 480
+        breakpoint: 480,
         settings: {
           centerMode: true,
           centerPadding: '20px',

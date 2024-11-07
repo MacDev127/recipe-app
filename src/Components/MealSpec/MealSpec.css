@@ -1,6 +1,8 @@
 .meal__spec {
   margin-top: 8rem;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & .meal__spec-container {
     display: flex;
     justify-content: center;
