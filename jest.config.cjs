@@ -1,8 +1,11 @@
-// jest.config.js or jest.config.cjs if renamed
+// jest.config.js
 module.exports = {
-  preset: 'ts-jest',
-  collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
-  coverageDirectory: 'coverage',
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy', // Mock CSS imports
+  },
   testEnvironment: 'jsdom',
 };

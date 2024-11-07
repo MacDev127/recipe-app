@@ -17,3 +17,8 @@ export interface IngredientSelectionProps {
   dropdownOptions: DropdownOptions[];
   isSearchTriggered: boolean;
 }
+
+export interface OptionType {
+  value: string; // Adjust the type if `value` is something other than a string
+  label: string;
+}

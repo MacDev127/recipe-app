@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import { DropdownProps } from './dropDownTypes';
+import { DropdownProps } from './dropDownTypes'; // Import the types
 
 const Dropdown: React.FC<DropdownProps> = ({
   label,

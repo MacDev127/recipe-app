@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -142,19 +142,7 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,20 +152,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -243,8 +221,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// RecipeAccordion.tsx
-import React from 'react';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 <span class="cstat-no" title="statement not covered" >import {</span>
   Accordion,
   AccordionSummary,
@@ -252,25 +229,14 @@ import React from 'react';
   Typography,
 } from '@mui/material';
 <span class="cstat-no" title="statement not covered" >import ExpandMoreIcon from '@mui/icons-material/ExpandMore';</span>
-&nbsp;
-interface Recipe {
-  idMeal: string;
-  strMeal: string;
-  strMealThumb: string;
-  strCategory?: string;
-  strInstructions?: string;
-  [key: string]: any;
-}
-&nbsp;
-interface RecipeAccordionProps {
-  recipe: Recipe;
-}
+import { RecipeAccordionProps } from './recipeAccrodianTypes';
 &nbsp;
 const RecipeAccordion: React.FC&lt;RecipeAccordionProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> recipe }) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;Accordion style={{ marginBottom: '1rem' }}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Accordion sx={{ marginBottom: '1rem' }}&gt;</span>
     &lt;AccordionSummary
       expandIcon={&lt;ExpandMoreIcon /&gt;}
       aria-controls="recipe-content"
+      aria-label={`Expand ${recipe.strMeal}`}
     &gt;
       &lt;div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}&gt;
         &lt;img
@@ -283,7 +249,7 @@ const RecipeAccordion: React.FC&lt;RecipeAccordionProps&gt; = <span class="cstat
     &lt;/AccordionSummary&gt;
     &lt;AccordionDetails&gt;
       &lt;Typography
-        style={{
+        sx={{
           textAlign: 'left',
           marginTop: '1rem',
           marginBottom: '1rem',
@@ -291,13 +257,14 @@ const RecipeAccordion: React.FC&lt;RecipeAccordionProps&gt; = <span class="cstat
           fontWeight: '400',
         }}
       &gt;
-        &lt;strong&gt;Category:&lt;/strong&gt; {recipe.strCategory}
+        &lt;strong&gt;Category:&lt;/strong&gt; {recipe.strCategory || 'N/A'}
       &lt;/Typography&gt;
 &nbsp;
       &lt;Typography
-        style={{ textAlign: 'justify', alignItems: 'center', gap: '16px' }}
+        sx={{ textAlign: 'justify', alignItems: 'center', gap: '16px' }}
       &gt;
-        &lt;strong&gt;Instructions:&lt;/strong&gt; {recipe.strInstructions}
+        &lt;strong&gt;Instructions:&lt;/strong&gt;{' '}
+        {recipe.strInstructions || 'No instructions available.'}
       &lt;/Typography&gt;
       &lt;h3
         style={{
@@ -314,7 +281,7 @@ const RecipeAccordion: React.FC&lt;RecipeAccordionProps&gt; = <span class="cstat
           .filter(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >key.startsWith('strIngredient') &amp;&amp; recipe[key])</span>
           .map(<span class="fstat-no" title="function not covered" >(k</span>ey, index) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;li</span>
-              key={index}
+              key={recipe[`idIngredient${index + 1}`] || index}
               style={{
                 listStyle: 'none',
                 display: 'flex',
@@ -340,7 +307,7 @@ const RecipeAccordion: React.FC&lt;RecipeAccordionProps&gt; = <span class="cstat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-07T00:57:51.700Z
+                at 2024-11-07T13:14:32.535Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

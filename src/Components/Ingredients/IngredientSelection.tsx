@@ -2,7 +2,7 @@ import React from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import './Ingredients.css';
 import Title from '../Title/Title';
-import { IngredientSelectionProps } from './ingredientTypes';
+import { IngredientSelectionProps, OptionType } from './ingredientTypes';
 
 const IngredientSelection: React.FC<IngredientSelectionProps> = ({
   selectedIngredients,
@@ -22,17 +22,26 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
                 label={label}
                 options={options}
                 onChange={(selectedOptions) => {
-                  // Ensure selectedOptions is an array of objects with value properties
-                  const selectedValues = (selectedOptions || []).map((option) =>
-                    typeof option === 'object' ? option.value : option
-                  );
+                  const selectedValues = (
+                    (selectedOptions as unknown as OptionType[] | null) || []
+                  ).map((option) => {
+                    if (
+                      option &&
+                      typeof option === 'object' &&
+                      'value' in option
+                    ) {
+                      return option.value as string; // Explicitly cast option.value to string
+                    }
+                    return option as string;
+                  });
+
                   handleIngredientSelect([
                     ...new Set([...selectedIngredients, ...selectedValues]),
                   ]);
                 }}
                 placeholder={placeholder}
-                isMulti={true} // Enable multi-select functionality
-                selectedValues={selectedIngredients} // Pass selected values
+                isMulti={true}
+                selectedValues={selectedIngredients}
               />
             ))}
           </div>
