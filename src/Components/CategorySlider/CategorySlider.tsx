@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import axios from 'axios';
 import Title from '../Title/Title';
 import './CategorySlider.css';
-import { AreaWithImage } from './categorySliderTypes';
+import { Area, AreaWithImage } from './categorySliderTypes';
 
 const CategorySlider = () => {
   const [areas, setAreas] = useState<AreaWithImage[]>([]);
@@ -25,42 +25,45 @@ const CategorySlider = () => {
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 3,
+          centerMode: true,
           centerPadding: '40px',
+          slidesToShow: 3,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          centerMode: true,
           centerPadding: '40px',
+          slidesToShow: 2,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          centerMode: true,
           centerPadding: '20px',
+          slidesToShow: 1,
         },
       },
     ],
   };
 
-  // Fetch areas and their representative images
+  // Fetch areas and representative images
   useEffect(() => {
     const fetchAreasWithImages = async () => {
       try {
-        const { data } = await axios.get(
+        const areaResponse = await axios.get(
           'https://www.themealdb.com/api/json/v1/1/list.php?a=list'
         );
-        const areaList = data.meals;
+        const areaList = areaResponse.data.meals;
 
         const areasWithImages = await Promise.all(
-          areaList.map(async (area: AreaWithImage) => {
-            const { data: mealData } = await axios.get(
+          areaList.map(async (area: Area) => {
+            const mealResponse = await axios.get(
               `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area.strArea}`
             );
-            const meal = mealData.meals[0];
+            const meal = mealResponse.data.meals[0];
             return {
               area: area.strArea,
               image: meal.strMealThumb,
