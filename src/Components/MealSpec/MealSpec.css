@@ -3,17 +3,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  & .meal__spec-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 /* Tablets  */
 @media only screen and (max-width: 768px) {
-  .meal__spec .meal__spec-container {
-    flex-direction: column;
+  .meal__spec-container {
+    display: grid;
+    grid-template-columns: (1, 1fr);
     margin-bottom: 2rem;
   }
 }

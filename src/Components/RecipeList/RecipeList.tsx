@@ -16,7 +16,9 @@ const RecipeList: React.FC<RecipeListProps> = ({
         <RecipeAccordion key={recipe.idMeal} recipe={recipe} />
       ))}
 
-      {filteredRecipes.length === 0 && hasSearched && <p>No recipes found.</p>}
+      {filteredRecipes.length === 0 && hasSearched && (
+        <p className="recipe__list-error">No recipes found</p>
+      )}
     </div>
   </div>
 );

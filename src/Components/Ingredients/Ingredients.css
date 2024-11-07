@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
 
-  .ingredient__section {
+  & .ingredient__selection-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,16 +17,15 @@
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
   }
+  @media only screen and (max-width: 768px) {
+    .ingredient__selection--dropdown-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 
   @media only screen and (max-width: 414px) {
     .ingredient__selection--dropdown-container {
       grid-template-columns: 1fr;
-    }
-
-    @media only screen and (max-width: 768px) {
-      .ingredient__selection--dropdown-container {
-        grid-template-columns: repeat(1, 1fr);
-      }
     }
   }
 }

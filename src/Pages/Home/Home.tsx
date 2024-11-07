@@ -6,27 +6,28 @@ import MealSpec from '../../Components/MealSpec/MealSpec';
 import './Home.css';
 import CategorySlider from '../../Components/CategorySlider/CategorySlider';
 import dropdownOptions from '../../Components/Ingredients/dropdownOptions';
-import { Recipe } from './homeTypes'; // Import the Recipe type
+import { Recipe } from './homeTypes';
 
 const Home = () => {
+  // State for ingredient selection, recipes, filtered recipes, and search control
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [isSearching, setIsSearching] = useState(false); // State to control button visibility
+  const [isSearching, setIsSearching] = useState(false);
 
-  // Fetch recipes based on selected ingredients
+  // Fetches recipes based on selected ingredients
   useEffect(() => {
-    const fetchRecipes = async () => {
-      if (selectedIngredients.length === 0) return;
+    if (selectedIngredients.length === 0) return;
 
+    const fetchRecipes = async () => {
       try {
         const ingredientsQuery = selectedIngredients.join(',');
         const URL = `https://www.themealdb.com/api/json/v2/9973533/filter.php?i=${ingredientsQuery}`;
         const response = await axios.get(URL);
         const fetchedRecipes = response.data.meals || [];
 
-        // Fetch detailed information for each recipe
+        // Fetch details for each recipe
         const detailedRecipes = await Promise.all(
           fetchedRecipes.map(async (recipe: Recipe) => {
             const recipeDetails = await axios.get(
@@ -46,14 +47,14 @@ const Home = () => {
     fetchRecipes();
   }, [selectedIngredients]);
 
-  // Handle selection of ingredients
+  // Updates the selected ingredients
   const handleIngredientSelect = (newIngredients: string[]) => {
     setSelectedIngredients(newIngredients);
   };
 
-  // Handle search to filter recipes based on selected ingredients
+  // Filters recipes based on selected ingredients
   const handleSearchRecipes = () => {
-    setIsSearching(true); // Hide the button when search is initiated
+    setIsSearching(true);
     setHasSearched(true);
 
     const refinedRecipes = recipes.filter((recipe) => {
@@ -65,15 +66,17 @@ const Home = () => {
         recipeIngredients.includes(ingredient.toLowerCase())
       );
     });
+
     setFilteredRecipes(refinedRecipes);
   };
 
-  // Reset search state
+  // Resets search state and reloads the page
   const handleReset = () => {
     setSelectedIngredients([]);
     setFilteredRecipes([]);
     setHasSearched(false);
-    setIsSearching(false); // Show the search button again
+    setIsSearching(false);
+    window.location.reload();
   };
 
   return (
@@ -81,26 +84,38 @@ const Home = () => {
       <div className="home__hero">
         <img src="../../../public/images/logo3.png" alt="Recipe App Logo" />
       </div>
+
+      {/* Category slider component */}
       <CategorySlider />
+
+      {/* Meal specification component */}
       <MealSpec />
+
+      {/* Ingredient selection component */}
       <Ingredients
         selectedIngredients={selectedIngredients}
         handleIngredientSelect={handleIngredientSelect}
         dropdownOptions={dropdownOptions}
         isSearchTriggered={hasSearched}
       />
+
+      {/* Search Button */}
       {!isSearching && (
         <button className="home__search-btn" onClick={handleSearchRecipes}>
           Search Recipes
         </button>
       )}
+
+      {/* Recipe List */}
       {hasSearched && (
         <RecipeList
           filteredRecipes={filteredRecipes}
           hasSearched={hasSearched}
         />
       )}
-      {hasSearched && ( // Show the reset button only if a search has been made
+
+      {/* Reset Button */}
+      {hasSearched && (
         <button className="home__reset-btn" onClick={handleReset}>
           Reset Search
         </button>

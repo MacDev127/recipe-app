@@ -39,9 +39,10 @@ const MealSpec: React.FC = () => {
     <div className="meal__spec">
       <Title>Meal Preferences</Title>
       <div
+        className="test"
         style={{
           display: 'flex',
-          gap: '80px',
+          gap: '50px',
           flexWrap: 'wrap',
           justifyContent: 'center',
         }}

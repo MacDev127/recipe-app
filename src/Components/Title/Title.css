@@ -8,7 +8,11 @@
 @media only screen and (max-width: 768px) {
   .title__component {
     font-size: 1.3rem;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
+    display: flex;
+    padding-top: 1.2rem;
+    justify-content: center;
+    align-items: center;
   }
 }
 @media only screen and (max-width: 414px) {

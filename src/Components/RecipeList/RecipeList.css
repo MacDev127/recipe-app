@@ -39,4 +39,11 @@
     background-color: var(--hover-color);
     transition: ease 0.2s;
   }
+
+  & .recipe__list-error {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    text-transform: capitalize;
+  }
 }

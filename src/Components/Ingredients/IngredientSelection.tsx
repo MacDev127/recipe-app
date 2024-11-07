@@ -8,45 +8,46 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
   selectedIngredients,
   handleIngredientSelect,
   dropdownOptions,
-  isSearchTriggered,
 }) => {
   return (
     <div className="ingredient__selection">
-      {!isSearchTriggered && (
-        <div className="ingredient__section">
-          <Title>Select Ingredients</Title>
-          <div className="ingredient__selection--dropdown-container">
-            {dropdownOptions.map(({ label, options, placeholder }) => (
-              <Dropdown
-                key={label}
-                label={label}
-                options={options}
-                onChange={(selectedOptions) => {
-                  const selectedValues = (
-                    (selectedOptions as unknown as OptionType[] | null) || []
-                  ).map((option) => {
-                    if (
-                      option &&
-                      typeof option === 'object' &&
-                      'value' in option
-                    ) {
-                      return option.value as string; // Explicitly cast option.value to string
-                    }
-                    return option as unknown as string;
-                  });
+      <div className="ingredient__selection-section">
+        <Title>Select Ingredients</Title>
 
-                  handleIngredientSelect([
-                    ...new Set([...selectedIngredients, ...selectedValues]),
-                  ]);
-                }}
-                placeholder={placeholder}
-                isMulti={true}
-                selectedValues={selectedIngredients}
-              />
-            ))}
-          </div>
+        <div className="ingredient__selection--dropdown-container">
+          {/* Map through each dropdown option provided in the props */}
+          {dropdownOptions.map(({ label, options, placeholder }) => (
+            <Dropdown
+              key={label}
+              label={label}
+              options={options}
+              onChange={(selectedOptions) => {
+                // get values from selected options
+                const selectedValues = (
+                  (selectedOptions as unknown as OptionType[] | null) || []
+                ).map((option) => {
+                  if (
+                    option &&
+                    typeof option === 'object' &&
+                    'value' in option
+                  ) {
+                    return option.value as string;
+                  }
+                  return option as unknown as string;
+                });
+
+                // Update the selected ingredients without duplicates
+                handleIngredientSelect([
+                  ...new Set([...selectedIngredients, ...selectedValues]),
+                ]);
+              }}
+              placeholder={placeholder}
+              isMulti={true}
+              selectedValues={selectedIngredients}
+            />
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
