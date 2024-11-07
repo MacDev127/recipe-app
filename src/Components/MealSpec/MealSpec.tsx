@@ -1,9 +1,8 @@
+// MealSpec.tsx
 import React, { useState } from 'react';
 import Select, { SingleValue } from 'react-select';
 import Title from '../Title/Title';
 import { OptionType } from './mealSpecTypes';
-
-// Define a type for the option items
 
 const MealSpec: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<OptionType | null>(
@@ -48,8 +47,9 @@ const MealSpec: React.FC = () => {
         }}
       >
         <div style={{ minWidth: '250px' }}>
-          <label>Meal Category</label>
+          <label htmlFor="meal-category">Meal Category</label>
           <Select
+            inputId="meal-category"
             options={categoryOptions}
             value={selectedCategory}
             onChange={(option: SingleValue<OptionType>) =>
@@ -59,8 +59,9 @@ const MealSpec: React.FC = () => {
           />
         </div>
         <div style={{ minWidth: '250px' }}>
-          <label>Number of People</label>
+          <label htmlFor="number-of-people">Number of People</label>
           <Select
+            inputId="number-of-people"
             options={peopleOptions}
             value={selectedPeople}
             onChange={(option: SingleValue<OptionType>) =>
@@ -70,8 +71,9 @@ const MealSpec: React.FC = () => {
           />
         </div>
         <div style={{ minWidth: '250px' }}>
-          <label>Cooking Time</label>
+          <label htmlFor="cooking-time">Cooking Time</label>
           <Select
+            inputId="cooking-time"
             options={timeOptions}
             value={selectedTime}
             onChange={(option: SingleValue<OptionType>) =>

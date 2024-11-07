@@ -32,7 +32,7 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
                     ) {
                       return option.value as string; // Explicitly cast option.value to string
                     }
-                    return option as string;
+                    return option as unknown as string;
                   });
 
                   handleIngredientSelect([

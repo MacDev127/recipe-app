@@ -1,12 +1,14 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
-    // other options...
+    "jsx": "react-jsx", // "react" if using React versions below 17
     "esModuleInterop": true,
-    "jsx": "react-jsx"
-  }
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2015",
+    "lib": ["DOM", "ES2015"], // Ensure DOM library is included
+    "downlevelIteration": true, // Necessary for Set iteration
+    "moduleResolution": "node",
+    "skipLibCheck": true, // Skip type checking for library files
+    "strict": true
+  },
+  "include": ["src"]
 }
