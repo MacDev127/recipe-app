@@ -8,8 +8,6 @@ import CategorySlider from '../../Components/CategorySlider/CategorySlider';
 
 import dropdownOptions from '../../Components/Ingredients/dropdownOptions';
 
-//orginal
-
 interface Recipe {
   idMeal: string;
   strMeal: string;
@@ -24,10 +22,10 @@ const Home = () => {
   );
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
-  const [hasSearched, setHasSearched] = useState(false);
-
   const [mealCategory, setMealCategory] = useState<string | null>(null);
-  const [categories, setCategories] = useState([]); // For meal categories
+  const [categories, setCategories] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [isSearchTriggered, setIsSearchTriggered] = useState(false);
 
   // Fetch categories on component load
   useEffect(() => {
@@ -47,7 +45,6 @@ const Home = () => {
   useEffect(() => {
     const fetchRecipesByCategory = async () => {
       if (!mealCategory) return;
-      console.log('mealCategory before API call:', mealCategory);
 
       try {
         // Fetch recipes based on the selected category
@@ -56,21 +53,16 @@ const Home = () => {
         );
 
         const fetchedRecipes = response.data.meals || [];
-        console.log('API response:', response.data);
-
-        // Set recipes to display the results directly without further filtering
         setRecipes(fetchedRecipes);
-        setFilteredRecipes(fetchedRecipes); // Set initial filtered list to fetched recipes
-        console.log('Fetched recipes by category:', fetchedRecipes); // Debug log
+        setFilteredRecipes(fetchedRecipes);
       } catch (error) {
         console.error('Error fetching recipes by category:', error);
       }
     };
 
     fetchRecipesByCategory();
-  }, [mealCategory]); // Only depends on mealCategory
+  }, [mealCategory]);
 
-  //fetch recipes
   useEffect(() => {
     const fetchRecipes = async () => {
       if (!mainIngredient) return;
@@ -95,22 +87,6 @@ const Home = () => {
     fetchRecipes();
   }, [mainIngredient]);
 
-  useEffect(() => {
-    if (additionalIngredients.length === 0) {
-      setFilteredRecipes(recipes);
-      return;
-    }
-    const refinedRecipes = recipes.filter((recipe) => {
-      const recipeIngredients = Object.keys(recipe)
-        .filter((key) => key.startsWith('strIngredient') && recipe[key])
-        .map((key) => recipe[key].toLowerCase());
-      return additionalIngredients.every((ingredient) =>
-        recipeIngredients.includes(ingredient.toLowerCase())
-      );
-    });
-    setFilteredRecipes(refinedRecipes);
-  }, [additionalIngredients, recipes]);
-
   const handleMainIngredientChange = (ingredientName: string) => {
     setMainIngredient(ingredientName);
     setAdditionalIngredients([]);
@@ -124,24 +100,52 @@ const Home = () => {
     );
   };
 
+  const handleSearchRecipes = () => {
+    setHasSearched(true);
+    setIsSearchTriggered(true);
+
+    if (additionalIngredients.length === 0) {
+      setFilteredRecipes(recipes);
+      return;
+    }
+
+    const refinedRecipes = recipes.filter((recipe) => {
+      const recipeIngredients = Object.keys(recipe)
+        .filter((key) => key.startsWith('strIngredient') && recipe[key])
+        .map((key) => recipe[key].toLowerCase());
+
+      return [mainIngredient, ...additionalIngredients].every((ingredient) =>
+        ingredient ? recipeIngredients.includes(ingredient.toLowerCase()) : true
+      );
+    });
+
+    setFilteredRecipes(refinedRecipes);
+  };
+
   return (
     <div className="home">
-      <div className="hero">
+      <div className="home__hero">
         <img src="../../../public/images/logo3.png" alt="" />
       </div>
       <CategorySlider />
-      <MealSpec
-        setMealCategory={setMealCategory}
-        categories={categories} // Pass categories to MealSpec
-      />
+      <MealSpec setMealCategory={setMealCategory} categories={categories} />
       <Ingredients
         mainIngredient={mainIngredient}
         additionalIngredients={additionalIngredients}
         handleMainIngredientChange={handleMainIngredientChange}
         toggleAdditionalIngredient={toggleAdditionalIngredient}
         dropdownOptions={dropdownOptions}
+        isSearchTriggered={isSearchTriggered} // Pass the state here
       />
-      <RecipeList filteredRecipes={filteredRecipes} hasSearched={hasSearched} />
+      <button className="home__search-btn" onClick={handleSearchRecipes}>
+        Search Recipes
+      </button>
+      {hasSearched && (
+        <RecipeList
+          filteredRecipes={filteredRecipes}
+          hasSearched={hasSearched}
+        />
+      )}
     </div>
   );
 };

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import './Ingredients.css';
 import Title from '../Title/Title';
-import { CSSTransition } from 'react-transition-group';
 
 interface IngredientSelectionProps {
   mainIngredient: string | null;
@@ -14,36 +13,20 @@ interface IngredientSelectionProps {
     options: { idIngredient: string; strIngredient: string }[];
     placeholder: string;
   }[];
+  isSearchTriggered: boolean;
 }
 
 const IngredientSelection: React.FC<IngredientSelectionProps> = ({
   mainIngredient,
+  additionalIngredients,
   handleMainIngredientChange,
   toggleAdditionalIngredient,
   dropdownOptions,
+  isSearchTriggered,
 }) => {
-  const [isMainIngredientSelected, setMainIngredientSelected] = useState(false);
-  const [isAdditionalIngredientSelected, setAdditionalIngredientSelected] =
-    useState(false);
-
-  const handleMainIngredientSelect = (ingredientName: string) => {
-    handleMainIngredientChange(ingredientName);
-    setMainIngredientSelected(true);
-  };
-
-  const handleAdditionalIngredientSelect = (ingredientName: string) => {
-    toggleAdditionalIngredient(ingredientName);
-    setAdditionalIngredientSelected(true);
-  };
-
   return (
     <div className="ingredient__selection">
-      <CSSTransition
-        in={!isMainIngredientSelected}
-        timeout={300}
-        classNames="fade"
-        unmountOnExit
-      >
+      {!isSearchTriggered && ( // Only show this section if search is not triggered
         <div className="ingredient__section">
           <Title>Select Main Ingredient</Title>
           <div className="ingredient__selection--dropdown-container">
@@ -52,36 +35,29 @@ const IngredientSelection: React.FC<IngredientSelectionProps> = ({
                 key={label}
                 label={label}
                 options={options}
-                onChange={handleMainIngredientSelect}
+                onChange={handleMainIngredientChange}
                 placeholder={placeholder}
               />
             ))}
           </div>
         </div>
-      </CSSTransition>
+      )}
 
-      {mainIngredient && (
-        <CSSTransition
-          in={!isAdditionalIngredientSelected}
-          timeout={300}
-          classNames="fade"
-          unmountOnExit
-        >
-          <div className="ingredient__section">
-            <Title>Add Additional Ingredients</Title>
-            <div className="ingredient__selection--dropdown-container">
-              {dropdownOptions.map(({ label, options, placeholder }) => (
-                <Dropdown
-                  key={label}
-                  label={label}
-                  options={options}
-                  onChange={handleAdditionalIngredientSelect}
-                  placeholder={placeholder}
-                />
-              ))}
-            </div>
+      {mainIngredient && !isSearchTriggered && (
+        <div className="ingredient__section">
+          <Title>Add Additional Ingredients</Title>
+          <div className="ingredient__selection--dropdown-container">
+            {dropdownOptions.map(({ label, options, placeholder }) => (
+              <Dropdown
+                key={label}
+                label={label}
+                options={options}
+                onChange={toggleAdditionalIngredient}
+                placeholder={placeholder}
+              />
+            ))}
           </div>
-        </CSSTransition>
+        </div>
       )}
     </div>
   );

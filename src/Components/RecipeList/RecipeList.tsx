@@ -15,7 +15,7 @@ interface Recipe {
 
 interface RecipeListProps {
   filteredRecipes: Recipe[];
-  hasSearched: boolean; // Indicates if a search was performed
+  hasSearched: boolean;
 }
 const handleReset = () => {
   window.location.reload();
@@ -25,7 +25,6 @@ const RecipeList: React.FC<RecipeListProps> = ({
   hasSearched,
 }) => (
   <div className="recipe__list">
-    {/* Only show the Title if there are recipes */}
     {filteredRecipes.length > 0 && <Title>Recipe</Title>}
 
     <div className="recipe__list-result">
@@ -33,7 +32,6 @@ const RecipeList: React.FC<RecipeListProps> = ({
         <RecipeAccordion key={recipe.idMeal} recipe={recipe} />
       ))}
 
-      {/* Show "No recipes found" message if no recipes are returned and a search was performed */}
       {filteredRecipes.length === 0 && hasSearched && <p>No recipes found.</p>}
     </div>
     <button className="recipe__list-reset" onClick={handleReset}>

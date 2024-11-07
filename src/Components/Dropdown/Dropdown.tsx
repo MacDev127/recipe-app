@@ -1,5 +1,4 @@
 import React from 'react';
-import './Dropdown.css';
 import Select, { SingleValue } from 'react-select';
 import makeAnimated from 'react-select/animated';
 
