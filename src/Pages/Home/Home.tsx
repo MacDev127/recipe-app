@@ -82,7 +82,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="home__hero">
-        <img src="../../../public/images/logo3.png" alt="Recipe App Logo" />
+        <img src="/images/logo3.png" alt="Recipe App Logo" />
       </div>
 
       {/* Category slider component */}
