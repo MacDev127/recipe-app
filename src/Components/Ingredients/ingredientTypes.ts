@@ -1,5 +1,3 @@
-// src/types/ingredientSelectionTypes.ts
-
 export interface DropdownOption {
   idIngredient: string;
   strIngredient: string;
@@ -19,6 +17,6 @@ export interface IngredientSelectionProps {
 }
 
 export interface OptionType {
-  value: string; // Adjust the type if `value` is something other than a string
+  value: string;
   label: string;
 }

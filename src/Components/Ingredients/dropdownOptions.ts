@@ -9,8 +9,7 @@ import {
   fishAndSeafoodKeywords,
   sweetenersAndSugarsKeywords,
   miscellaneousKeywords,
-} from './ingredientKeywords'; // Update the path if needed
-
+} from './ingredientKeywords';
 const filterByKeywords = (keywords: string[]) =>
   keywords.map((keyword) => ({
     idIngredient: keyword,

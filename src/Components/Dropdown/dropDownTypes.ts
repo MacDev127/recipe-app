@@ -1,5 +1,3 @@
-// src/types/dropdownTypes.ts
-
 export interface DropdownOption {
   idIngredient: string;
   strIngredient: string;

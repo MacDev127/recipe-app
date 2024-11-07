@@ -1,4 +1,3 @@
-// IngredientSelection.test.tsx
 import { render, screen } from '@testing-library/react';
 import IngredientSelection from './IngredientSelection';
 import { IngredientSelectionProps } from './ingredientTypes';
