@@ -24,6 +24,7 @@ const Home = () => {
   );
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const [mealCategory, setMealCategory] = useState<string | null>(null);
   const [categories, setCategories] = useState([]); // For meal categories
@@ -140,7 +141,7 @@ const Home = () => {
         toggleAdditionalIngredient={toggleAdditionalIngredient}
         dropdownOptions={dropdownOptions}
       />
-      <RecipeList filteredRecipes={filteredRecipes} hasSearched={false} />
+      <RecipeList filteredRecipes={filteredRecipes} hasSearched={hasSearched} />
     </div>
   );
 };

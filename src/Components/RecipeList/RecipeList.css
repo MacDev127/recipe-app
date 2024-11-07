@@ -9,4 +9,25 @@
   & .recipe__list-result {
     width: 80%;
   }
+
+  & .recipe__list-reset {
+    background-color: #83c5be;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+    box-sizing: border-box;
+    color: #313131;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  & .recipe__list-reset:hover {
+    background-color: #82cac3;
+  }
 }
